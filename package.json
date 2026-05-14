@@ -23,13 +23,13 @@
     "url": "https://github.com/felipefontoura/pi-skill-model-handoff/issues"
   },
   "files": [
-    "src",
+    "index.ts",
     "README.md",
     "LICENSE"
   ],
   "pi": {
     "extensions": [
-      "./src/index.ts"
+      "./index.ts"
     ]
   },
   "scripts": {

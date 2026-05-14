@@ -1,111 +1,97 @@
-# @felipefontoura/pi-skill-model-handoff
+# Pi Skill Model Handoff
 
-`skill-model-handoff` is a minimal Pi extension that applies a skill-scoped model from `SKILL.md` frontmatter.
+Use different Pi models for different skills automatically.
 
-It keeps Pi's native skill selection behavior intact. Pi still decides _if/when_ to load a skill; this extension only reacts once Pi actually reads `*/skills/*/SKILL.md`.
+This package lets each Pi skill choose the model that should be selected when that skill is loaded. You keep using Pi normally; no extra commands are required.
 
-The goal is simple: **model selection by skill metadata, with near-zero UI noise**.
-
-## Summary
-
-Use this extension when you want different skills to run under different models without manual `/model` switching.
-
-It does the following:
-
-- listens to `tool_call` events for the `read` tool
-- reacts only to files matching `*/skills/*/SKILL.md`
-- parses frontmatter keys:
-  - `model` (required to activate)
-  - `thinking` (optional)
-- applies `pi.setModel(...)` and optional `pi.setThinkingLevel(...)`
-
-If a skill has no `model` key, the extension stays fully silent.
-
-## Quickstart
-
-### Install from npm
+## Install
 
 ```bash
 pi install npm:@felipefontoura/pi-skill-model-handoff
 ```
 
-### Install from git
-
-```bash
-pi install git:github.com/felipefontoura/pi-skill-model-handoff
-```
-
-Then reload Pi resources:
+Then restart Pi or run:
 
 ```text
 /reload
 ```
 
-## Frontmatter format
+## How it works
 
-Use top-level frontmatter in `SKILL.md`:
+Add a `model` field to the frontmatter of a skill's `SKILL.md` file:
 
 ```yaml
 ---
 name: explore
-description: Brainstorm and idea exploration.
+description: Brainstorm and explore ideas.
 model: opencode-go/glm-5.1
 thinking: medium
 ---
 ```
 
-### Supported fields
+When Pi loads that skill, this extension selects the configured model.
 
-- `model: provider/model-id` (required)
-- `thinking: off|minimal|low|medium|high|xhigh` (optional)
+## Supported fields
 
-Any missing or unsupported mapping is ignored silently.
+### `model`
 
-## Behavior details
+The model to select when the skill is loaded.
 
-### What this extension does
+```yaml
+model: openai/gpt-5.5
+```
 
-- applies model/thinking when a skill file is actually loaded by Pi
-- shows one subtle info notification: `handoff active: <skill>`
-- updates status key `skill-model` with applied model info
+```yaml
+model: anthropic/claude-sonnet-4-5
+```
 
-### What this extension does not do
+```yaml
+model: opencode-go/glm-5.1
+```
 
-- does not route by keywords
-- does not classify user intent
-- does not choose skills
-- does not inject skills proactively
-- does not require manual `/skill:...` commands
+### `thinking`
 
-## Example workflow
+Optional thinking level:
 
-1. User sends a normal prompt
-2. Pi decides to load a skill
-3. Pi reads `.../skills/<name>/SKILL.md`
-4. Extension sees the read event
-5. Extension applies `model` (and optional `thinking`)
+```yaml
+thinking: medium
+```
 
-No extra workflow is required from the user.
-
-## Notes
-
-- This extension intentionally keeps behavior narrow and predictable.
-- If a model is not available in your registry or cannot be selected, Pi shows an error status/notification.
-
-## Development
-
-Local extension source path:
+Allowed values:
 
 ```text
-src/index.ts
+off, minimal, low, medium, high, xhigh
 ```
 
-Basic checks:
+## What you will see
 
-```bash
-npx prettier --write .
-npx tsc -p tsconfig.json --noEmit
+When a skill model is applied, Pi shows a small message like:
+
+```text
+handoff active: explore
 ```
+
+If a skill does not define `model`, the extension stays silent.
+
+## Example
+
+```yaml
+---
+name: review
+description: Review code changes.
+model: openai/gpt-5.5
+thinking: high
+---
+```
+
+When Pi loads the `review` skill, it switches to `openai/gpt-5.5` and sets thinking to `high`.
+
+## Important
+
+- Pi still decides which skill to load.
+- This extension does not choose skills for you.
+- This extension does not route prompts by keywords.
+- It only applies model settings after Pi loads a skill.
 
 ## License
 
