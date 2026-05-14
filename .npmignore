@@ -1,0 +1,23 @@
+# VCS / CI
+.git/
+.github/
+
+# Local/dev
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.*
+
+# Editor/OS
+.DS_Store
+.idea/
+.vscode/
+
+# Project docs/config not needed in package tarball
+AGENTS.md
+tsconfig.json
