@@ -29,7 +29,7 @@
   ],
   "pi": {
     "extensions": [
-      "./src/skill-model-handoff.ts"
+      "./src/index.ts"
     ]
   },
   "scripts": {

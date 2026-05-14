@@ -97,7 +97,7 @@ No extra workflow is required from the user.
 Local extension source path:
 
 ```text
-src/skill-model-handoff.ts
+src/index.ts
 ```
 
 Basic checks:
