@@ -93,6 +93,12 @@ When Pi loads the `review` skill, it switches to `openai/gpt-5.5` and sets think
 - This extension does not route prompts by keywords.
 - It only applies model settings after Pi loads a skill.
 
+## Related
+
+- [pi-sdd-kit](https://github.com/felipefontoura/pi-sdd-kit) - my other Pi package: a spec-driven development skill pack with steering docs as durable memory, `.status` approval gates, EARS requirements, and a PRD-to-review pipeline.
+
+Made by [Felipe Fontoura](https://felipefontoura.com), who ships production systems with AI agents using Spec-Driven Development.
+
 ## License
 
 MIT
